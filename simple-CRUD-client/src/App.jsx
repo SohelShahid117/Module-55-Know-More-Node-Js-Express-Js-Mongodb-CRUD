@@ -24,6 +24,7 @@ function App() {
         if (data.insertedId) {
           alert("users added successfully");
         }
+        form.reset("");
       });
   };
 

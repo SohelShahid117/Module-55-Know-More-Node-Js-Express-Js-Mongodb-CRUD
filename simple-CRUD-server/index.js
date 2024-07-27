@@ -36,6 +36,7 @@ async function run() {
     // const usersCollection = database.collection("users");
     const usersCollection = client.db("usersDB").collection("users");
 
+    //READ
     app.get('/users',async(req,res)=>{
         // const cursor = usersCollection.find()
         // const result = await cursor.toArray()
@@ -43,6 +44,7 @@ async function run() {
         res.send(result)
     })
 
+    //CREATE
     app.post('/users',async(req,res)=>{
         const user = req.body
         console.log('new user is ',user)
@@ -50,6 +52,7 @@ async function run() {
         res.send(result)
     })
 
+    //DELETE
     app.delete('/users/:id',async(req,res)=>{
         const id = req.params.id
         console.log('please delete from database',id)
@@ -57,6 +60,16 @@ async function run() {
         const result = await usersCollection.deleteOne(query);
         res.send(result)
     })
+
+    //UPDATE
+    app.get('/users/:id',async(req,res)=>{
+      const id = req.params.id
+      console.log('please UPDATE from database',id)
+      const query = { _id:new ObjectId(id)};
+      const result = await usersCollection.findOne(query)
+      res.send(result)
+    })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
