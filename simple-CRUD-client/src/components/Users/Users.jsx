@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 
 const Users = () => {
+  //READ
   const loadedUsers = useLoaderData();
   let [users, setUsers] = useState(loadedUsers);
   console.log(users);
 
   const handleDelete = (id) => {
     console.log("delete is", id);
+
+    //DELETE
     fetch(`http://localhost:5001/users/${id}`, {
       method: "DELETE",
     })

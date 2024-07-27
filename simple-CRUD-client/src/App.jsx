@@ -1,5 +1,6 @@
 import { json, Link } from "react-router-dom";
 import "./App.css";
+//https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
 function App() {
   const handleAddUser = (e) => {
@@ -11,6 +12,7 @@ function App() {
     const user = { name, email };
     console.log(user);
 
+    //CREATE
     fetch("http://localhost:5001/users", {
       method: "POST",
       headers: {

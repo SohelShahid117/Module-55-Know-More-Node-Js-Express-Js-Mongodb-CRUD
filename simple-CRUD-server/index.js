@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 //mPBq9g0oPx2sKX02
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+// const uri = "mongodb://localhost:27017"
 const uri = "mongodb+srv://sohel09:mPBq9g0oPx2sKX02@cluster0.hfhifix.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -61,7 +62,7 @@ async function run() {
         res.send(result)
     })
 
-    //UPDATE
+    //get single data for UPDATE or READ
     app.get('/users/:id',async(req,res)=>{
       const id = req.params.id
       console.log('please UPDATE from database',id)
@@ -69,20 +70,24 @@ async function run() {
       const result = await usersCollection.findOne(query)
       res.send(result)
     })
+
+    //UPDATE
+    //https://www.mongodb.com/docs/drivers/node/current/usage-examples/updateOne/
     app.put('/users/:id',async(req,res)=>{
       const id = req.params.id
-      console.log('please UPDATE from database',id)
-      const user = req.body
-      console.log('update',id,updatedUser)
-      const query = { _id:new ObjectId(id)};
+      console.log('UPDATE from DB',id)
+      const updatedUser = req.body
+      console.log('update-->',id,updatedUser)
+
+      const filter = { _id: new ObjectId(id)};
       const options = {upsert:true}
-      const updatedUser = {
+      const updatedUserDoc = {
         $set : {
-          name : user.name,
-          email:user.email
+          name : updatedUser.name,
+          email:updatedUser.email
         }
       }
-      const result = await usersCollection.updateOne(query,options,updatedUser)
+      const result = await usersCollection.updateOne(filter,updatedUserDoc,options)
       res.send(result)
     })
 
