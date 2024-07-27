@@ -1,18 +1,29 @@
 import React from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, json } from "react-router-dom";
 
 const Update = () => {
   const loadedUser = useLoaderData();
   console.log("update", loadedUser);
+
   const handleUpdateUser = (e) => {
     e.preventDefault();
     console.log("update user is working");
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
-    const updateUser = { name, email };
-    console.log(updateUser);
+    const updatedUser = { name, email };
+    console.log(updatedUser);
+    fetch(`http://localhost:5001/users/${loadedUser._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedUser),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
+
   return (
     <div>
       <h2>This is update page</h2>

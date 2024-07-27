@@ -69,6 +69,22 @@ async function run() {
       const result = await usersCollection.findOne(query)
       res.send(result)
     })
+    app.put('/users/:id',async(req,res)=>{
+      const id = req.params.id
+      console.log('please UPDATE from database',id)
+      const user = req.body
+      console.log('update',id,updatedUser)
+      const query = { _id:new ObjectId(id)};
+      const options = {upsert:true}
+      const updatedUser = {
+        $set : {
+          name : user.name,
+          email:user.email
+        }
+      }
+      const result = await usersCollection.updateOne(query,options,updatedUser)
+      res.send(result)
+    })
 
 
     // Send a ping to confirm a successful connection
